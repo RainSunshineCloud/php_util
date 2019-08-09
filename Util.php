@@ -6,7 +6,7 @@ class Util
 	 * 获取服务器ip
 	 * @return string
 	 */
-	function getServerIp() {
+	public static function getServerIp() {
 		return trim(shell_exec ("/sbin/ifconfig -a|grep inet|grep -v 127.0.0.1|grep -v inet6|awk '{print $2}'|tr -d 'addr:'"),"\r\n");
 	}
 
@@ -14,7 +14,7 @@ class Util
 	 * 获取客户端ip
 	 * @return string
 	 */
-	function getClientIp() {
+	public static function getClientIp() {
 		if （$ips = getenv('HTTP_X_FORWARDED_FOR')） {
 			$arr = explode(',', $ips);
 			$ip = trim(array_pop($arr));
@@ -41,14 +41,14 @@ class Util
 	 * @param  boolean     是否删除已随机的数值
 	 * @return array|string 随机次数为1时为字符串，否则为数组
 	 */
-	function randStr (string $str,int $num = 1,bool $unset = true) {
+	function static randStr (string $str,int $num = 1,bool $unset = true) {
 		if ($num == 1) {
 			$len = strlen($str);
 			return substr($str,mt_rand(0,$len - 1),1);
 		}
 
 		$arr = str_split($str);
-		return random_arr($arr,$num,$unset);
+		return self::randArr($arr,$num,$unset);
 	}
 
 	/**
@@ -58,7 +58,7 @@ class Util
 	 * @param  boolean     是否删除已随机的数值
 	 * @return array|string 随机次数为1时为字符串，否则为数组
 	 */
-	function randArr (array $arr, int $num = 1, bool $unset = true) {
+	public static function randArr (array $arr, int $num = 1, bool $unset = true) {
 		if ($num < 1 ) {
 			return [];
 		}
