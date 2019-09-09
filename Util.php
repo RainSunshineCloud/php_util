@@ -7,7 +7,10 @@ class Util
 	 * @return string
 	 */
 	public static function getServerIp() {
-		return trim(shell_exec ("/sbin/ifconfig -a|grep inet|grep -v 127.0.0.1|grep -v inet6|awk '{print $2}'|tr -d 'addr:'"),"\r\n");
+		$str = trim(shell_exec ("/sbin/ifconfig -a|grep inet|grep -v 127.0.0.1|grep -v inet6|awk '{print $2}'|tr -d 'addr:'"),"\r\n");
+		$arr = explode(" ",$str);
+		$arr = array_filter($arr,function ($v) {if ($v) return true; return false;});
+		return array_pop($arr);
 	}
 
 	/**
